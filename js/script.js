@@ -76,13 +76,26 @@ class store{
    }
 
    //Add Books In LocalStorage
-   
+
    static addBook(book){
     let books = store.getBooks();
     books.push(book)
 
     localStorage.setItem("books",JSON.stringify("books"));
    }
+
+   // Display Books From LOcalStorage
+
+   static dispalyBooks(){
+      let books = store.getBooks();
+      books.forEach(book =>{
+      UI.addToBooklist(book)
+
+      })
+
+   }
+
+
 };
 
 
@@ -93,6 +106,7 @@ class store{
 
 form.addEventListener("submit",newbook);
 booklist.addEventListener("click",removeBook);
+document.addEventListener("DOMContentLoaded",store.dispalyBooks());
 
 
 //Declare The Function
