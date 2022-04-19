@@ -75,7 +75,17 @@ class store{
       return books;
    }
 
+   //Add Books In LocalStorage
+   
+   static addBook(book){
+    let books = store.getBooks();
+    books.push(book)
+
+    localStorage.setItem("books",JSON.stringify("books"));
+   }
 };
+
+
 
 
 //Add Event Listeners
@@ -102,7 +112,8 @@ function newbook(e){
    
       UI.addToBooklist(book);
       UI.clearFields();
-      UI.showalert("Book Added","success")
+      UI.showalert("Book Added","success");
+      store.addBook(book);
 
     };
 
