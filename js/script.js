@@ -1,7 +1,7 @@
 // Get the UI Element
 
 let form = document.querySelector("#book_form");
-
+let booklist = document.querySelector("#book-list");
 
 
 // Book Class
@@ -17,13 +17,9 @@ class Book{
 //UI Class 
 
 class UI{
-   constructor(){
 
 
-
-   }
-
-   addToBooklist(book){
+  static addToBooklist(book){
     let list = document.querySelector("#book-list");
     let row = document.createElement("tr");
     row.innerHTML=`
@@ -35,14 +31,14 @@ class UI{
     list.appendChild(row);
      
    };
-   clearFields(){
+  static clearFields(){
     document.querySelector("#tittle").value="",
     document.querySelector("#author").value="",
     document.querySelector("#isbn").value="";
 
 
  };
- showalert(message,className){
+ static showalert(message,className){
    let div = document.createElement("div");
    div.className =`alert ${className}`;
    div.appendChild(document.createTextNode(message));
@@ -56,7 +52,14 @@ class UI{
 
 
  };
-   
+  static deleteFromBook(target){
+    if(target.hasAttribute("href")){
+       target.parentElement.parentElement.remove();
+       UI.showalert("Book Removed","success")
+    }
+
+
+   }
 };
 
 
@@ -64,6 +67,7 @@ class UI{
 
 
 form.addEventListener("submit",newbook);
+booklist.addEventListener("click",removeBook);
 
 
 //Declare The Function
@@ -73,23 +77,29 @@ function newbook(e){
     author = document.querySelector("#author").value,
     isbn = document.querySelector("#isbn").value;
 
-    let ui = new UI();
+  
 
     if(tittle==="" || author==="" || isbn==="" ){
-      ui.showalert("please fill all the fields!","error")
+      UI.showalert("please fill all the fields!","error")
 
     }else{
       let book = new Book(tittle,author,isbn);
    
-      ui.addToBooklist(book);
-      ui.clearFields();
-      ui.showalert("Book Added","success")
+      UI.addToBooklist(book);
+      UI.clearFields();
+      UI.showalert("Book Added","success")
 
     };
-
-   
-
 
   e.preventDefault();
 }
 
+// Removeing  Book Fron Booklist
+
+function removeBook(e){
+
+UI.deleteFromBook(e.target);
+
+  e.preventDefault();
+
+}
