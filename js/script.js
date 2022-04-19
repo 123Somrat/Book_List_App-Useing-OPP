@@ -55,6 +55,7 @@ class UI{
   static deleteFromBook(target){
     if(target.hasAttribute("href")){
        target.parentElement.parentElement.remove();
+       store.removeBook(target.parentElement.previousElement.textContent.trim());
        UI.showalert("Book Removed","success")
     }
 
@@ -95,7 +96,18 @@ class store{
 
    }
 
+   // Remove Books From LocalStorage
+    static removeBook(isbn){
+       let books=store.getBooks();
+       
+       books.forEach((book,index) =>{
+        if(books.isbn === isbn){
+           books.splice(index,1);
+        }
 
+       })
+       localStorage.setItem("books",JSON.stringify(books));
+    }
 };
 
 
